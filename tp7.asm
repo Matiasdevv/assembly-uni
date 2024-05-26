@@ -92,23 +92,42 @@ lightblue:
 
 
  Escriba un programa en el que en la mitad de la pantalla los colores
-    cambien deformaaleatoria.
+    cambien deforma aleatoria.
 
     printRandom:
     ldx #$00
-    jrs randomize
+    lda #$00
+    jsr randomize
 
-
-brk
+    brk
 
 randomize:
-
-    lda #$00
-
-    sta $200, X
     inx
-    inc $200,x
+    sta $200, X
+    sta $300, X
+    adc #$04
+jmp randomize  
 
-    cpx #$00
-    bne red
-    rts
+
+ 7. Escriba un programa que compare el valor almacenado en el registro
+ A con otro valor. Si ambos valores son iguales, el programa debe restar
+ uno al valor del acumulador.
+
+  comparador:
+
+    lda #$0a
+    
+    ldx #$0a
+    stx $0020
+    ldy #$20
+    cmp ($00), y
+    beq:
+    sbc #$01
+
+
+
+ 8. Suponiendo que se realiza un sorteo en el que 15 personas resultarán
+ ganadoras, se necesita un código que obtenga dichos números y los
+ almacene en memoria.
+
+
