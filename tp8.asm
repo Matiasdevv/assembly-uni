@@ -74,19 +74,89 @@ loop:
 
     brk  
 
+ 5. Escribe un programa que realice una cuenta regresiva del registro X,
+ iniciando con el valor 255. Los valores de X deben almacenarse en
+ direcciones de memoria consecutivas, comenzando desde la dirección de
+ memoria $57.
+countdown:
+
+  ldx #$ff
+  ldy #$00
+  jsr sub1
+
+  brk
+
+sub1:
+  txa 
+  sta $5700,y
+  dex 
+  iny
+  cpx #$00
+  bne sub1
+  beq: rts
+
+
+ 6. Escribe un programa que tome el número $84 y ponga en 1 los bits 0 y 3.
+ Luego, compare el resultado con el número $85:
+    ●Si el resultado es menor que $85, almacene el número resultante en
+        la dirección de memoria $F0.
+    ●Si el resultado es mayor o igual que $85, almacene el número
+        resultante en la dirección de memoria F1.
+
+
+  
+
+ 7. Escribe un programa que calcule la suma de los números del 1 al 10 y
+ almacene el resultado en una dirección de memoria específica.
+
+ sum:
+
+    LDA #$10
+    STA $01
+    jsr sumNum
+  brk
+
+sumNum:
+    ldy #$00
+    LDX #$01
+    LDA #$01
+    ADC x
+    sta ($01), y
+    INY
+    INX
+    CPX #$10
+    BEQ: RTS
+    BNE sumNum 
+
+
+    ;; direccionamiento indirecto
+  ;      sum:
+  ;     ldy #$00
+
+  ;     LDA #$01
+  ;     STA $01
+  ; lda #$10
+  ; sta $02
+  ;   sta ($01,x)
+
+  ;   brk
+
+  ; sumNum:
+  ;     ldy #$00
+  ;     LDX #$01
+  ;     LDA #$01
+  ;     ADC x
+  ;     sta ($01,x)
+  ;     INY
+  ;     INX
+  ;     CPX #$10
+  ;     beq: rts
+  ;     bne sumNum   
+
+
+
+ 8. Crea un programa que a partir de 2 números almacenados en memoria,
+ encuentre el número más grande y lo almacene en otra dirección de
+ memoria
 
     
-
-
-
-
-
-5. Escribe un programa que realice una cuenta regresiva del registro X,
-iniciando con el valor 255. Los valores de X deben almacenarse endirecciones de memoria consecutivas, comenzando desde la dirección de
-memoria $57.
-
-
-6. Escribe un programa que tome el número $84 y ponga en 1 los bits 0 y 3.
-Luego, compare el resultado con el número $85:
-● Si el resultado es menor que $85, almacene el número resultante enla dirección de memoria $F0.
-● Si el resultado es mayor o igual que $85, almacene el númeroresultante en la dirección de memoria F1.
