@@ -88,7 +88,7 @@ countdown:
 
 sub1:
   txa 
-  sta $5700,y
+  sta $5700,y ; se puede hacer solo con stx poniendo el $00
   dex 
   iny
   cpx #$00
@@ -109,25 +109,24 @@ sub1:
  7. Escribe un programa que calcule la suma de los números del 1 al 10 y
  almacene el resultado en una dirección de memoria específica.
 
- sum:
-
+  sum:
     LDA #$10
     STA $01
+    LDX #$01
+    lda #$01
+    sta $02 ;nota: usar dos bytes
     jsr sumNum
   brk
 
 sumNum:
-    ldy #$00
-    LDX #$01
-    LDA #$01
-    ADC x
+    clc
+    ADC #$01
     sta ($01), y
     INY
     INX
-    CPX #$10
-    BEQ: RTS
-    BNE sumNum 
-
+    cpx #$0a
+    BNE sumNum
+    rts
 
     ;; direccionamiento indirecto
   ;      sum:
@@ -159,4 +158,68 @@ sumNum:
  encuentre el número más grande y lo almacene en otra dirección de
  memoria
 
+
+lda #$09
+sta $00
+lda #$08
+sta $01
+
+jsr greater
+
+brk
+
+greater:
+
+    lda $00
+    cmp $01
+
+    bpl: 
+   
+  sta $03
+
+
+;para el tp 9
+
+lda #0a
+lsr
+
+
+
+
+
+    lda #$02
+    ldx #$02
+
+    jsr multiplicar
+
+    brk
+
+multiplicar:
+
+    tay
+    sty $06
     
+    clc
+    adc $06
+     
+        
+
+    rts
+
+
+
+    lda #$04
+    ldx #$02
+    stx $06
+
+    jsr multiplicar
+
+    brk
+
+multiplicar:
+    tay
+    clc
+    adc $06 
+   dey
+   cpy #$00
+rts
