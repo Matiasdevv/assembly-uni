@@ -19,10 +19,6 @@ _sum:
 
 adc a
 
-
-
-
-
 2. Se desea realizar la multiplicación de dos números de 8 bits utilizando sumas.
 
 
@@ -54,25 +50,24 @@ desde el número 10 y aumentando de 2 en 2, en direcciones de memoria
 consecutivas. El almacenamiento debe continuar hasta que el valor del
 registro Y sea menor que 30. El valor inicial de Y debe ser 60.
 
-0001 1110
-1e
+; 0001 1110
+; 1e
 
-60 = $38
+; 60 = $38
 
-
+ init:
     lda #$0a
     sta $00
     ldy #$38
     sty $0300
     ldy $#00
-loop:
-    adc #$02
-    sta ($03), y
-    iny
-    cpx #$1e
-    bmi loop 
-
-    brk  
+    loop:
+      adc #$02
+      sta ($03), y
+      iny
+      cpx #$1e
+      bmi loop 
+  brk  
 
  5. Escribe un programa que realice una cuenta regresiva del registro X,
  iniciando con el valor 255. Los valores de X deben almacenarse en
@@ -103,8 +98,22 @@ sub1:
     ●Si el resultado es mayor o igual que $85, almacene el número
         resultante en la dirección de memoria F1.
 
+        
+; 1000 0100 ; $84
+; 0000 1001 ; lo que necesito para el eor
+; 1000 1101 ; resultado
 
-  
+init:
+  lda #$84
+  jsr rbits
+brk
+
+  rbits:
+   eor #%00001001 ; uso del eor para este caso en especifico
+   cmp #$85
+   bmi: sta $f0
+   bpl: $f1
+  rts 
 
  7. Escribe un programa que calcule la suma de los números del 1 al 10 y
  almacene el resultado en una dirección de memoria específica.
@@ -178,48 +187,3 @@ greater:
   sta $03
 
 
-;para el tp 9
-
-lda #0a
-lsr
-
-
-
-
-
-    lda #$02
-    ldx #$02
-
-    jsr multiplicar
-
-    brk
-
-multiplicar:
-
-    tay
-    sty $06
-    
-    clc
-    adc $06
-     
-        
-
-    rts
-
-
-
-    lda #$04
-    ldx #$02
-    stx $06
-
-    jsr multiplicar
-
-    brk
-
-multiplicar:
-    tay
-    clc
-    adc $06 
-   dey
-   cpy #$00
-rts
